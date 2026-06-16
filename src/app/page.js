@@ -7,26 +7,29 @@ const Wheel = dynamic(
   () => import("react-custom-roulette").then((mod) => mod.Wheel),
   { ssr: false }
 );
+
 export default function Home() {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
 
   const data = [
-    { option: "1" },
-    { option: "2" },
-    { option: "3" },
-    { option: "4" },
-    { option: "5" },
-    { option: "6" },
-    { option: "7" },
-    { option: "8" },
-    { option: "9" },
-    { option: "10" },
-    { option: "11" },
-    { option: "12" },
+    { option: "AirPods" },
+    { option: "電影票" },
+    { option: "100元禮券" },
+    { option: "星巴克咖啡" },
+    { option: "再抽一次" },
+    { option: "神秘禮物" },
+    { option: "200元禮券" },
+    { option: "小熊玩偶" },
+    { option: "行動電源" },
+    { option: "藍芽耳機" },
+    { option: "筆記本" },
+    { option: "銘謝惠顧" },
   ];
 
   const handleSpinClick = () => {
+    if (mustSpin) return;
+
     const newPrize = Math.floor(Math.random() * data.length);
 
     setPrizeNumber(newPrize);
@@ -34,37 +37,96 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      <h1 className="text-4xl font-bold mb-6 text-black">
-        🎡 幸運轉盤
-      </h1>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex flex-col items-center justify-center p-6">
+      
+      {/* 標題 */}
+      <div className="text-center mb-8">
+        <h1 className="text-6xl font-extrabold text-white">
+          Pulse AI
+        </h1>
 
-      <Wheel
-        mustStartSpinning={mustSpin}
-        prizeNumber={prizeNumber}
-        data={data}
-        backgroundColors={[
-          "#FF6B6B",
-          "#4D96FF",
-          "#6BCB77",
-          "#FFD93D",
-        ]}
-        textColors={["#ffffff"]}
-        onStopSpinning={() => {
-          setMustSpin(false);
-        }}
-      />
+        <p className="text-purple-300 text-xl mt-3">
+          智慧幸運抽獎系統
+        </p>
+      </div>
 
-      <button
-        onClick={handleSpinClick}
-        className="mt-6 bg-blue-500 text-white px-6 py-3 rounded"
+      {/* 毛玻璃卡片 */}
+      <div
+        className="
+        bg-white/10
+        backdrop-blur-lg
+        border border-white/20
+        rounded-3xl
+        shadow-2xl
+        p-10
+        flex
+        flex-col
+        items-center
+        "
       >
-        開始旋轉
-      </button>
+        <Wheel
+          mustStartSpinning={mustSpin}
+          prizeNumber={prizeNumber}
+          data={data}
+          backgroundColors={[
+            "#FF6B6B",
+            "#4D96FF",
+            "#6BCB77",
+            "#FFD93D",
+          ]}
+          textColors={["#ffffff"]}
+          outerBorderColor="#ffffff"
+          outerBorderWidth={5}
+          radiusLineColor="#ffffff"
+          radiusLineWidth={2}
+          onStopSpinning={() => {
+            setMustSpin(false);
+          }}
+        />
 
-      <p className="mt-4 text-3xl text-red-600 font-bold">
-  🎉 抽到：{data[prizeNumber].option}
-      </p>
+        <button
+          onClick={handleSpinClick}
+          className="
+          mt-8
+          px-8
+          py-4
+          rounded-xl
+          text-white
+          font-bold
+          text-lg
+          bg-gradient-to-r
+          from-purple-500
+          to-pink-500
+          hover:scale-105
+          transition
+          duration-300
+          shadow-lg
+          "
+        >
+          🎲 開始抽獎
+        </button>
+
+        <div
+          className="
+          mt-8
+          bg-yellow-400
+          text-black
+          px-8
+          py-4
+          rounded-2xl
+          shadow-xl
+          text-2xl
+          font-bold
+          "
+        >
+          🏆 恭喜抽中：{data[prizeNumber].option}
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="mt-8 text-gray-400 text-sm">
+        Developed by Ben © 2026
+      </div>
     </div>
   );
 }
