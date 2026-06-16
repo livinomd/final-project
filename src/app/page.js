@@ -272,7 +272,6 @@ return ( <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purpl
     </div>
   </div>
 </div>
-```
 
 );
 }
