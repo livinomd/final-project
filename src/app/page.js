@@ -1,8 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Wheel } from "react-custom-roulette";
+import dynamic from "next/dynamic";
 
+const Wheel = dynamic(
+  () => import("react-custom-roulette").then((mod) => mod.Wheel),
+  { ssr: false }
+);
 export default function Home() {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
