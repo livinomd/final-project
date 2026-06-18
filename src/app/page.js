@@ -15,6 +15,7 @@ export default function Home() {
   const [luckScore, setLuckScore] = useState(null);
   const [luckyColor, setLuckyColor] = useState("");
   const [luckyNumber, setLuckyNumber] = useState("");
+  const [rank, setRank] = useState("");
   const [history, setHistory] = useState([]);
 
   const data = [
@@ -56,32 +57,41 @@ export default function Home() {
 
     const newPrize = Math.floor(Math.random() * data.length);
 
-    setPrizeNumber(newPrize);
-    setMustSpin(true);
-
     const score = Math.floor(Math.random() * 41) + 60;
+
+    let userRank = "B";
+
+    if (score >= 95) userRank = "SSS";
+    else if (score >= 90) userRank = "SS";
+    else if (score >= 80) userRank = "S";
+    else if (score >= 70) userRank = "A";
+
     const color =
       colors[Math.floor(Math.random() * colors.length)];
+
     const number = Math.floor(Math.random() * 99) + 1;
 
+    setPrizeNumber(newPrize);
     setLuckScore(score);
     setLuckyColor(color);
     setLuckyNumber(number);
+    setRank(userRank);
+
+    setMustSpin(true);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-8">
-
       <div className="max-w-7xl mx-auto">
 
         {/* 標題 */}
         <div className="text-center mb-10">
           <h1 className="text-6xl font-extrabold text-white">
-            Pulse AI
+            🔮 Destiny AI
           </h1>
 
           <p className="text-purple-300 text-xl mt-3">
-            AI 命運分析平台
+            智慧命運分析與幸運預測系統
           </p>
         </div>
 
@@ -121,6 +131,11 @@ export default function Home() {
                     {
                       name,
                       result: data[prizeNumber].option,
+                      score: luckScore,
+                      color: luckyColor,
+                      number: luckyNumber,
+                      rank: rank,
+                      date: new Date().toLocaleDateString(),
                     },
                     ...prev,
                   ]);
@@ -142,7 +157,9 @@ export default function Home() {
               from-purple-500
               to-pink-500
               hover:scale-105
-              transition
+              hover:shadow-2xl
+              transition-all
+              duration-300
               "
             >
               🚀 開始 AI 命運分析
@@ -157,93 +174,109 @@ export default function Home() {
             </h2>
 
             {luckScore && (
-              <>
-                <div className="space-y-4">
+              <div className="space-y-4">
 
-                  <div className="text-xl">
-                    👤 使用者：
-                    <span className="font-bold text-yellow-300">
-                      {" "}
-                      {name}
-                    </span>
-                  </div>
-
-                  <div className="text-xl">
-                    🎯 今日命運：
-                    <span className="font-bold text-green-300">
-                      {" "}
-                      {data[prizeNumber].option}
-                    </span>
-                  </div>
-
-                  <div className="text-xl">
-                    🍀 幸運值：
-                    <span className="font-bold text-cyan-300">
-                      {" "}
-                      {luckScore}%
-                    </span>
-                  </div>
-
-                  <div className="w-full bg-gray-700 rounded-full h-5">
-                    <div
-                      className="bg-green-400 h-5 rounded-full"
-                      style={{ width: `${luckScore}%` }}
-                    />
-                  </div>
-
-                  <div className="text-xl">
-                    🎨 幸運顏色：
-                    <span className="font-bold text-pink-300">
-                      {" "}
-                      {luckyColor}
-                    </span>
-                  </div>
-
-                  <div className="text-xl">
-                    🔢 幸運數字：
-                    <span className="font-bold text-yellow-300">
-                      {" "}
-                      {luckyNumber}
-                    </span>
-                  </div>
-
-                  <div className="bg-black/30 rounded-xl p-4 mt-4">
-                    <h3 className="font-bold mb-2">
-                      📖 AI 今日建議
-                    </h3>
-
-                    <p>
-                      {
-                        adviceMap[
-                          data[prizeNumber].option
-                        ]
-                      }
-                    </p>
-                  </div>
+                <div className="text-xl">
+                  👤 使用者：
+                  <span className="font-bold text-yellow-300">
+                    {" "}
+                    {name}
+                  </span>
                 </div>
-              </>
+
+                <div className="text-xl">
+                  📅 分析日期：
+                  <span className="font-bold text-blue-300">
+                    {" "}
+                    {new Date().toLocaleDateString()}
+                  </span>
+                </div>
+
+                <div className="text-xl">
+                  🎯 今日命運：
+                  <span className="font-bold text-green-300">
+                    {" "}
+                    {data[prizeNumber].option}
+                  </span>
+                </div>
+
+                <div className="text-xl">
+                  👑 命運等級：
+                  <span className="font-bold text-orange-300">
+                    {" "}
+                    {rank}
+                  </span>
+                </div>
+
+                <div className="text-xl">
+                  🍀 幸運值：
+                  <span className="font-bold text-cyan-300">
+                    {" "}
+                    {luckScore}%
+                  </span>
+                </div>
+
+                <div className="w-full bg-gray-700 rounded-full h-5">
+                  <div
+                    className="bg-green-400 h-5 rounded-full"
+                    style={{ width: `${luckScore}%` }}
+                  />
+                </div>
+
+                <div className="text-xl">
+                  🎨 幸運顏色：
+                  <span className="font-bold text-pink-300">
+                    {" "}
+                    {luckyColor}
+                  </span>
+                </div>
+
+                <div className="text-xl">
+                  🔢 幸運數字：
+                  <span className="font-bold text-yellow-300">
+                    {" "}
+                    {luckyNumber}
+                  </span>
+                </div>
+
+                <div className="bg-black/30 rounded-xl p-4 mt-4">
+                  <h3 className="font-bold mb-2">
+                    📖 AI 今日建議
+                  </h3>
+
+                  <p>
+                    {adviceMap[data[prizeNumber].option]}
+                  </p>
+                </div>
+
+              </div>
             )}
           </div>
-
         </div>
 
         {/* 歷史紀錄 */}
         <div className="mt-10 bg-white/10 backdrop-blur-lg rounded-3xl border border-white/20 p-8 text-white">
 
           <h2 className="text-2xl font-bold mb-4">
-            📜 歷史紀錄
+            📜 命運檔案庫
           </h2>
 
           {history.length === 0 ? (
             <p>尚未進行分析</p>
           ) : (
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               {history.map((item, index) => (
                 <li
                   key={index}
-                  className="bg-black/20 p-3 rounded-lg"
+                  className="bg-black/20 p-4 rounded-xl"
                 >
-                  👤 {item.name} → 🎯 {item.result}
+                  <div>👤 {item.name}</div>
+                  <div>🎯 {item.result}</div>
+                  <div>👑 {item.rank}</div>
+                  <div>🍀 {item.score}%</div>
+                  <div>🎨 {item.color}</div>
+                  <div>🔢 {item.number}</div>
+                  <div>📅 {item.date}</div>
                 </li>
               ))}
             </ul>
